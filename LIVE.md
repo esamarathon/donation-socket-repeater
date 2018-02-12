@@ -29,7 +29,7 @@ Emitted when a donation should be shown to the public on the stream. Currently t
 Key | Type | Description
 --- | ---- | -----------
 id | integer | Unique donation ID from the database.
-doner_visiblename | string | The name of the donor that they would like to appear as publicly (can be `(Anonymous)`).
+donor_visiblename | string | The name of the donor that they would like to appear as publicly (can be `(Anonymous)`).
 amount | string | The amount this donation is for. Currency isn't specified but is (currently) USD.
 comment_state | string | If the donation comment was accepted/rejected. *Should* be `APPROVED` or `DENIED`, rarely could be something else if something server side messes up; treat anything that isn't `APPROVED` as if it was `DENIED`.
 comment | string | Donator's comment. Can be blank; is made blank if their comment was rejected.
