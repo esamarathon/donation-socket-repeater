@@ -101,6 +101,7 @@ app.post('/stream_info', (req, res) => {
 
 	// Emit this information now that it's changed.
 	io.emit('streamInfo', streamInfo);
+	console.log('EMIT streamInfo:', streamInfo);
 	res.sendStatus(200);
 });
 
