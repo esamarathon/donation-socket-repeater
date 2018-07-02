@@ -11,10 +11,9 @@ if (!config) {
 	console.log('You have forgotten the config.json file; using defaults.');
 }
 
-// Set port/key/event shorthand here; defaults if the config doesn't have it set.
+// Set port/key shorthand here; defaults if the config doesn't have it set.
 var port = (config) ? config.port : 1234;
 var key = (config) ? config.key : 'default_key';
-var eventShort = (config) ? config.event_short : 'esawinter18';
 
 // Starting server.
 app.use(bodyParser.json());
@@ -34,12 +33,6 @@ app.post('/', (req, res) => {
 		return;
 	}
 	
-	// If it wasn't for the correct event.
-	if (req.body.event !== eventShort) {
-		res.sendStatus(200);
-		return;
-	}
-	
 	// Donation pushes, from when they are approved to be shown on stream.
 	if (req.body.message_type === 'donation_push') {
 		// Remove the comment if it wasn't approved.
@@ -48,6 +41,7 @@ app.post('/', (req, res) => {
 		
 		// Constructing the data to be sent.
 		var data = {
+			event: req.body.event,
 			id: req.body.id,
 			donor_visiblename: req.body.donor_visiblename,
 			amount: req.body.amount,
@@ -65,6 +59,7 @@ app.post('/', (req, res) => {
 	else if (req.body.message_type === 'donation_total_change') {
 		// Constructing the data to be sent.
 		var data = {
+			event: req.body.event,
 			id: req.body.id,
 			amount: req.body.amount,
 			new_total: req.body.new_total
@@ -77,4 +72,3 @@ app.post('/', (req, res) => {
 	
 	res.sendStatus(200);
 });
-
