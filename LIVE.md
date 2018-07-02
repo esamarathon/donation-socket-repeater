@@ -1,6 +1,6 @@
 # Live Server Documentation
 
-The current live socket server is at [https://repeater.esamarathon.com/]().
+The current live socket server is at [https://repeater.esamarathon.com/](https://repeater.esamarathon.com/).
 
 The server currently uses [socket.io](https://socket.io/), you will need to connect to it with something such as [socket.io-client](https://github.com/socketio/socket.io-client).
 
