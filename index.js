@@ -105,6 +105,26 @@ app.post('/stream_info', (req, res) => {
 	res.sendStatus(200);
 });
 
+// POSTS to here from the omnibar moderation tool.
+app.post('/omnibar_mod', (req, res) => {
+	// Reject POSTs without the correct key.
+	if (req.query.key !== key) {
+		res.sendStatus(403);
+		return;
+	}
+
+	// Return a 400 if the body is not supplied.
+	if (!req.body) {
+		res.sendStatus(400);
+		return;
+	}
+
+	// Emit this information.
+	io.emit('omnibarMod', req.body);
+	console.log('EMIT omnibarMod:', req.body);
+	res.sendStatus(200);
+});
+
 // GETs to here return the stream information, if needed.
 app.get('/stream_info', (req, res) => {
 	res.json(streamInfo);
