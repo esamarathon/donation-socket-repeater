@@ -122,7 +122,8 @@ app.post('/omnibar_mod', (req, res) => {
 	// Emit this information.
 	io.emit('omnibarMod', req.body);
 	console.log('EMIT omnibarMod:', req.body);
-	res.sendStatus(200);
+	res.json({success: true});
+	//res.sendStatus(200);
 });
 
 // GETs to here return the stream information, if needed.
