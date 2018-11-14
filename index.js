@@ -15,6 +15,9 @@ if (!config) {
 var port = (config) ? config.port : 1234;
 var key = (config) ? config.key : 'default_key';
 
+// If we want to store/send information on other streams using this server.
+var storeStreamInfo = (config) ? config.storeStreamInfo : false;
+
 // Starting server.
 app.use(bodyParser.json());
 server.listen(port);
@@ -24,12 +27,12 @@ console.log(`Listening on port ${port}.`);
 var streamInfo = {
 	stream1: null,
 	stream2: null
-}
+};
 
 // Emit stream information to clients when they connect.
 io.on('connection', (socket) => {
 	console.log('Client connected with ID %s', socket.id);
-	socket.emit('streamInfo', streamInfo);
+	if (storeStreamInfo) socket.emit('streamInfo', streamInfo);
 });
 
 // A GET in case you need to check the server is running.
@@ -86,24 +89,26 @@ app.post('/tracker', (req, res) => {
 });
 
 // POSTS to here from streams on what their current run is.
-app.post('/stream_info', (req, res) => {
-	// Reject POSTs without the correct key.
-	if (req.query.key !== key) {
-		res.sendStatus(403);
-		return;
-	}
-	
-	// Store the data in the correct place.
-	if (req.body.stream === 1)
-		streamInfo.stream1 = req.body.runData;
-	else if (req.body.stream === 2)
-		streamInfo.stream2 = req.body.runData;
+if (storeStreamInfo) {
+	app.post('/stream_info', (req, res) => {
+		// Reject POSTs without the correct key.
+		if (req.query.key !== key) {
+			res.sendStatus(403);
+			return;
+		}
+		
+		// Store the data in the correct place.
+		if (req.body.stream === 1)
+			streamInfo.stream1 = req.body.runData;
+		else if (req.body.stream === 2)
+			streamInfo.stream2 = req.body.runData;
 
-	// Emit this information now that it's changed.
-	io.emit('streamInfo', streamInfo);
-	console.log('EMIT streamInfo:', streamInfo);
-	res.sendStatus(200);
-});
+		// Emit this information now that it's changed.
+		io.emit('streamInfo', streamInfo);
+		console.log('EMIT streamInfo:', streamInfo);
+		res.sendStatus(200);
+	});
+}
 
 // POSTS to here from the omnibar moderation tool.
 app.post('/omnibar_mod', (req, res) => {
@@ -127,6 +132,8 @@ app.post('/omnibar_mod', (req, res) => {
 });
 
 // GETs to here return the stream information, if needed.
-app.get('/stream_info', (req, res) => {
-	res.json(streamInfo);
-});
+if (storeStreamInfo) {
+	app.get('/stream_info', (req, res) => {
+		res.json(streamInfo);
+	});
+}
