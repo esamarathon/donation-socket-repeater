@@ -12,9 +12,13 @@
   },
   "homepage": "https://github.com/esamarathon/donation-socket-repeater#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "fs-extra": "^5.0.0",
-    "socket.io": "^2.0.4"
+    "async": "^2.6.1",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
+    "needle": "^2.2.4",
+    "socket.io": "^2.2.0",
+    "twitch-js": "^1.2.17",
+    "ws": "^6.1.3"
   }
 }

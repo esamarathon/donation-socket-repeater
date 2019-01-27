@@ -1,4 +1,4 @@
 node_modules/
-package-lock.json
 client-test.js
 config.json
+twitch_tokens.json
