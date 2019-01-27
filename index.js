@@ -33,7 +33,7 @@ var streamInfo = {
 	stream2: null
 };
 
-var twitchAPItwitchAPIRequestOptions = {
+var twitchAPIRequestOptions = {
 	headers: {
 		'Accept': 'application/vnd.twitchtv.v5+json',
 		'Content-Type': 'application/json'
